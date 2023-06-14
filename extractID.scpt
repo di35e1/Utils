@@ -1,6 +1,8 @@
 (* 
-	This AppleScript for Automator.app extracts numbers from the names of the received files or folders (aliases) and copies the result to the clipboard 
-	Аor example it will copy '57123" from a file named Myfile-57123
+	This AppleScript for Automator.app extracts numbers from the names of the received files or folders (aliases) 
+	and copies the result to the clipboard 
+
+	For example it will copy '57123" from a file named Myfile-57123.jpg
 	All messages in Russian
 *)
 
