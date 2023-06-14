@@ -1,32 +1,35 @@
+(* 
+	This AppleScript for Automator.app extracts numbers from the names of the received files or folders (aliases) and copies the result to the clipboard 
+	Аor example it will copy '57123" from a file named Myfile-57123
+	All messages in Russian
+*)
+
 on run {input, parameters}
 	
-	set theList to ""
+	set fileList to {}
+	set AppleScript's text item delimiters to {", "}
 	
 	repeat with a in input
-		if folder of (info for a) is true then
-			set fileList to list folder a without invisibles
-			repeat with theItem in fileList
-				set theList to (theList & quoted form of theItem as string) & " "
-			end repeat
+		if (folder of (info for a) is true) then
+			set fileList to fileList & (list folder a without invisibles)
 		else
-			set theList to (theList & quoted form of name of (the info for a) as string) & " "
+			set end of fileList to (name of (info for a))
 		end if
 	end repeat
 	
 	try
-		do shell script "echo " & theList & " | grep \"\\d\\d\\d\\+\" -o | pbcopy"
-		
-		if (the clipboard) is "" then
+		do shell script "echo " & (quoted form of (fileList as text)) & " | grep \"\\d\\d\\d\\+\" -o | sort --unique | pbcopy"
+		 
+		if ((the clipboard) is "") then
 			display alert "Упс" message ("В этих файлах нет никаких номеров") buttons ("Попробую еще раз")
 			
 		else
 			set theQuantity to (count words in (the clipboard))
-			set {oldTID, AppleScript's text item delimiters} to {AppleScript's text item delimiters, ", "}
 			
 			if (theQuantity) < 50 then
-				set theMessage to words of (the clipboard) as string
+				set theMessage to words of (the clipboard) as text
 			else
-				set theMessage to (words 1 thru 50 of (the clipboard) as string) & " ... " & last word of (the clipboard)
+				set theMessage to (words 1 thru 50 of (the clipboard) as text) & " ... " & last word of (the clipboard)
 			end if
 			
 			set theNumCount to (theQuantity mod 100)
