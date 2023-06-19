@@ -24,10 +24,11 @@ if(BridgeTalk.appName == 'bridge'){
                 
                 idList = fileList.toString().match(regex);
                 if (idList == null){
-                    alert('There are no numbers');
+                    Window.alert('There are no numbers');
                 } else {
-                    if (confirm('Would you like to get ' + idList.length + ' numbers?', (idList.join(", ")) + '\n\n') == true) {
+                    if (Window.confirm('Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ")) == true) {
                         app.system('echo "' + idList.join(" ") + '" | pbcopy');
+                        //Bridge 2023 API: app.document.copyTextToClipboard(idList.join(" "));
                     }
                 }
                 
