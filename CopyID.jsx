@@ -1,6 +1,13 @@
 ﻿/*
 This script copies the numbers from names of selected files to the Clipboard
-Last modifed 20/06/2023
+
+Bridge 2013: compatibility with Windows and macOS
+
+Bridge 2022 and earlier: compatibility with macOS, 
+but you can change bash command "pbcopy" to "clip" 
+in line 27 for compatibility with Windows cmd
+
+Last modifed 21/06/2023
 */
 
 #target bridge
