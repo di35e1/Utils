@@ -12,11 +12,11 @@ Last modifed 21/06/2023
 
 #target bridge
 
-const regex = /\d{3,}/g;
+const regex = /\d{3,}/g
 
 if(BridgeTalk.appName == 'bridge'){
 
-    const bridgeVersion = Number((app.version.split('.'))[0]);
+    const bridgeVersion = Number((app.version.split('.'))[0])
 
     if(bridgeVersion > 12){
         var copyResult = function(results){
@@ -24,44 +24,44 @@ if(BridgeTalk.appName == 'bridge'){
         }
     } else {
         var copyResult = function(results){
-            app.system('echo "' + results + '" | pbcopy'); //Bridge 12 (2022) use bash
+            app.system('echo "' + results + '" | pbcopy') //Bridge 12 (2022) use bash
         }
     }
 
     try{
-        var ftcpID = MenuElement.create('command', '+ Copy ID numbers', 'after Thumbnail/Open', this.menuID);
+        var ftcpID = MenuElement.create('command', '+ Copy ID numbers', 'after Thumbnail/Open', this.menuID)
         ftcpID.onSelect = function(){
-            numbersToClipboard();
+            numbersToClipboard()
             }
     }
     catch(e){
-        alert(e + ' ' + e.line);
+        alert(e + ' ' + e.line)
     }
 
     function numbersToClipboard(){
-        var fileList = [];
-        var idList = [];
+        var fileList = []
+        var idList = []
 
         try{
             var thumbs = app.document.selections;
             for (var key in thumbs){
-                fileList.push(thumbs[key].name);
+                fileList.push(thumbs[key].name)
             }
 
-            idList = fileList.toString().match(regex);
+            idList = fileList.toString().match(regex)
 
             if (idList == null){
-                Window.alert('There are no numbers');
+                Window.alert('There are no numbers')
             } else {
-                var cnfMessage = 'Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ");
+                var cnfMessage = 'Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ")
                 if (Window.confirm(cnfMessage)){
-                    copyResult(idList.join(" "));
+                    copyResult(idList.join(" "))
                 }
             }
             return;
         } 
         catch(e) {
-            alert(e + ' ' + e.line);
+            alert(e + ' ' + e.line)
         }
     }
 }
