@@ -22,7 +22,7 @@ on run {input, parameters}
 	
 	try
 		do shell script "echo " & (quoted form of (fileList as text)) & " | grep \"\\d\\d\\d\\+\" -o | sort --unique | pbcopy"
-		 
+		
 		if ((the clipboard) is "") then
 			display alert "Упс" message ("В этих файлах нет никаких номеров") buttons ("Попробую еще раз")
 			
@@ -32,7 +32,7 @@ on run {input, parameters}
 			if (theQuantity) < 50 then
 				set theMessage to words of (the clipboard) as text
 			else
-				set theMessage to (words 1 thru 50 of (the clipboard) as text) & " ... " & last word of (the clipboard)
+				set theMessage to (words 1 thru 49 of (the clipboard) as text) & " ... " & last word of (the clipboard)
 			end if
 			
 			set theNumCount to (theQuantity mod 100)
