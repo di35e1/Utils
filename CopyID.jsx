@@ -7,7 +7,7 @@ Bridge 2022 and earlier: compatibility with macOS,
 but you can change bash command "pbcopy" to "clip" 
 in line 27 for compatibility with Windows cmd
 
-Last modifed 21/06/2023
+Last modifed 26/06/2023
 */
 
 #target bridge
@@ -29,8 +29,15 @@ if(BridgeTalk.appName == 'bridge'){
     }
 
     try{
-        var ftcpID = MenuElement.create('command', '+ Copy ID numbers', 'after Thumbnail/Open', this.menuID)
-        ftcpID.onSelect = function(){
+        //create new menu command in Tools
+        var copyCommand = MenuElement.create('command', '• Copy ID numbers', '-at the end of Tools')
+        copyCommand.onSelect = function(){
+            numbersToClipboard()
+        }
+
+        //create new menu command in contextual
+        var copyCommandThumb = MenuElement.create('command', '• Copy ID numbers', '-after Thumbnail/Open-')
+        copyCommandThumb.onSelect = function(){
             numbersToClipboard()
             }
     }
