@@ -12,7 +12,7 @@ Last modifed 26/06/2023
 
 #target bridge
 
-const regex = /\d{3,}/g
+const REGEX = /\d{3,}/g
 
 if(BridgeTalk.appName == 'bridge'){
 
@@ -36,7 +36,7 @@ if(BridgeTalk.appName == 'bridge'){
         }
 
         //create new menu command in contextual
-        var copyCommandThumb = MenuElement.create('command', '-Copy ID numbers', 'after Thumbnail/Open')
+        var copyCommandThumb = MenuElement.create('command', '• Copy ID numbers', '-after Thumbnail/Open-')
         copyCommandThumb.onSelect = function(){
             numbersToClipboard()
             }
@@ -55,7 +55,7 @@ if(BridgeTalk.appName == 'bridge'){
                 fileList.push(thumbs[key].name)
             }
 
-            idList = fileList.toString().match(regex)
+            idList = fileList.toString().match(REGEX)
 
             if (idList == null){
                 Window.alert('There are no numbers')
