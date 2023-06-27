@@ -1,5 +1,5 @@
 /*
-This script copies the numbers from names of selected files to the Clipboard
+This script copies the Source String and numbers from names of selected files to the Clipboard
 
 Bridge 2013: compatibility with Windows and macOS
 
@@ -12,69 +12,83 @@ Last modifed 21/06/2023
 
 #target bridge
 
-const regexAFP = /(000_.{3,}).jpg/;
+const regexAgencies = /ria-|RIA_|\bAP|\b000_|iStock-/
+const regexAFP = /(000_.{3,}).jpg/
+const regexDigits = /\d{3,}/
+
 
 if(BridgeTalk.appName == 'bridge'){
 
-    const bridgeVersion = Number((app.version.split('.'))[0]);
+    const bridgeVer = Number((app.version.split('.'))[0])
 
-    if(bridgeVersion > 12){
-        var copyResult = function(results){
-            app.document.copyTextToClipboard(results); //Bridge 13 (2023) use API
+    if(bridgeVer > 12){
+        var copyRes = function(results){
+            app.document.copyTextToClipboard(results) //Bridge 13 (2023) use API
         }
     } else {
-        var copyResult = function(results){
-            app.system('echo ' + results + ' | clip'); //Bridge 12 (2022) use cmd
+        var copyRes = function(results){
+            app.system('echo "' + results + '" | pbcopy') //Bridge 12 (2022) use cmd
         }
     }
 
     try{
         //create new menu command in Tools
-        var copyCommand = MenuElement.create('command', '• Copy Source and ID', '-at the end of Tools')
-        copyCommand.onSelect = function(){
-            numbersToClipboard()
+        var copyCmd = MenuElement.create('command', '• Copy Source and ID', '-at the end of Tools')
+        copyCmd.onSelect = function(){
+            sourseAndIdToClipboard()
         }
 
         //create new menu command in contextual
-        var copyCommandThumb = MenuElement.create('command', '• Copy Source and ID', 'after Thumbnail/Open')
-        copyCommandThumb.onSelect = function(){
-            numbersToClipboard()
+        var copyCmdThumb = MenuElement.create('command', '• Copy Source and ID', '-after Thumbnail/Open-')
+        copyCmdThumb.onSelect = function(){
+            sourseAndIdToClipboard()
             }
     }
     catch(e){
-        alert(e + ' ' + e.line);
+        alert(e + ' ' + e.line)
     }
 
-    function numbersToClipboard(){
-        var fileList = [];
-        var idList = [];
+    function sourseAndIdToClipboard(){
+        var itemList_ = [] // empty list 
 
         try{
-            var thumbs = app.document.selections;
-            for (var key in thumbs){
+            var thumbs_ = app.document.selections
+            var itemIndex = 0
+            for (var key in thumbs_){
+                itemIndex++
+                agencies = (thumbs_[key].name).match(regexAgencies)
 
-                item = (thumbs[key].name).match(regexAFP)
-
-                if (item != null){
-                    fileList.push('AFP: ' + item[1]);
+                if (agencies == '000_'){
+                    item = (thumbs_[key].name.match(regexAFP))[1]
+                    itemList_.push(itemIndex + '. AFP:  ' + item)
+                } else if (agencies == 'AP'){
+                    item = thumbs_[key].name.match(regexDigits)
+                    itemList_.push(itemIndex + '. AP:  ' + item)
+                } else if (agencies == "ria-" || agencies == "RIA_"){
+                    item = thumbs_[key].name.match(regexDigits)
+                    itemList_.push(itemIndex + '. RIA:  ' + item)
+                } else if (agencies == "iStock-"){
+                    item = thumbs_[key].name.match(regexDigits)
+                    itemList_.push(itemIndex + '. iStock:  ' + item)
+                } else {
+                    item = thumbs_[key].name.replace(/["]/g, '\\"')
+                    itemList_.push(itemIndex + '. Unknown:  ' + item)
                 }
 
             }
 
-            idList = fileList//.toString().match(regex);
-
-            if (idList == null){
-                Window.alert('There are no numbers', 'Copy ID Numbers');
+            if (itemList_.length == 0){
+                Window.alert('There are no items', 'Copy ID Numbers')
             } else {
-                var cnfMessage = 'Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ");
-                if (Window.confirm(cnfMessage, false, 'Copy ID Numbers')){
-                    copyResult(idList.join("\n"));
+                var cnfMessage_ = 'Would you like to get ' + itemList_.length + ' items?\n' + itemList_.join("\n")
+                if (Window.confirm(cnfMessage_, false, 'Copy ID Numbers')){
+                    copyRes(itemList_.join("\n"))
                 }
             }
-            return;
+            return
         } 
         catch(e) {
-            alert(e + ' ' + e.line);
+            alert(e + ' ' + e.line)
         }
     }
 }

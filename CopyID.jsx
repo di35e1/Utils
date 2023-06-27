@@ -20,7 +20,7 @@ if(BridgeTalk.appName == 'bridge'){
 
     if(bridgeVersion > 12){
         var copyResult = function(results){
-            app.document.copyTextToClipboard(results); //Bridge 13 (2023) use API
+            app.document.copyTextToClipboard(results) //Bridge 13 (2023) use API
         }
     } else {
         var copyResult = function(results){
@@ -50,7 +50,7 @@ if(BridgeTalk.appName == 'bridge'){
         var idList = []
 
         try{
-            var thumbs = app.document.selections;
+            var thumbs = app.document.selections
             for (var key in thumbs){
                 fileList.push(thumbs[key].name)
             }
@@ -65,7 +65,7 @@ if(BridgeTalk.appName == 'bridge'){
                     copyResult(idList.join(" "))
                 }
             }
-            return;
+            return
         } 
         catch(e) {
             alert(e + ' ' + e.line)
