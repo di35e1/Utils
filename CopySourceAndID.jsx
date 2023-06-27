@@ -12,7 +12,7 @@ Last modifed 21/06/2023
 
 #target bridge
 
-const regex = /\d{3,}/g;
+const regexAFP = /(000_.{3,}).jpg/;
 
 if(BridgeTalk.appName == 'bridge'){
 
@@ -30,13 +30,13 @@ if(BridgeTalk.appName == 'bridge'){
 
     try{
         //create new menu command in Tools
-        var copyCommand = MenuElement.create('command', '• Copy ID numbers', '-at the end of Tools')
+        var copyCommand = MenuElement.create('command', '• Copy Source and ID', '-at the end of Tools')
         copyCommand.onSelect = function(){
             numbersToClipboard()
         }
 
         //create new menu command in contextual
-        var copyCommandThumb = MenuElement.create('command', '• Copy ID numbers', 'after Thumbnail/Open')
+        var copyCommandThumb = MenuElement.create('command', '• Copy Source and ID', 'after Thumbnail/Open')
         copyCommandThumb.onSelect = function(){
             numbersToClipboard()
             }
@@ -52,17 +52,23 @@ if(BridgeTalk.appName == 'bridge'){
         try{
             var thumbs = app.document.selections;
             for (var key in thumbs){
-                fileList.push(thumbs[key].name);
+
+                item = (thumbs[key].name).match(regexAFP)
+
+                if (item != null){
+                    fileList.push('AFP: ' + item[1]);
+                }
+
             }
 
-            idList = fileList.toString().match(regex);
+            idList = fileList//.toString().match(regex);
 
             if (idList == null){
                 Window.alert('There are no numbers', 'Copy ID Numbers');
             } else {
                 var cnfMessage = 'Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ");
                 if (Window.confirm(cnfMessage, false, 'Copy ID Numbers')){
-                    copyResult(idList.join(" "));
+                    copyResult(idList.join("\n"));
                 }
             }
             return;

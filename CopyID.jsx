@@ -36,7 +36,7 @@ if(BridgeTalk.appName == 'bridge'){
         }
 
         //create new menu command in contextual
-        var copyCommandThumb = MenuElement.create('command', '• Copy ID numbers', '-after Thumbnail/Open-')
+        var copyCommandThumb = MenuElement.create('command', '-Copy ID numbers', 'after Thumbnail/Open')
         copyCommandThumb.onSelect = function(){
             numbersToClipboard()
             }
