@@ -14,7 +14,7 @@ Last modifed 26/06/2023
 
 const REGEX = /\d{3,25}/
 const regexAgencies = /ria|RIA|AP|000_|i[sS]tock|[sS]putnik/
-const regexAFP = /(000_.{3,10}).jpg/
+const regexAFP = /(000_\w{3,10}).jpg/
 
 if(BridgeTalk.appName == 'bridge'){
 
@@ -77,7 +77,7 @@ if(BridgeTalk.appName == 'bridge'){
                 idNumber = (thumbs[key].name).match(REGEX)
                 if (idNumber == '000'){ // forexample 000_******.jpg
                     idAFP = idNumber.input.match(regexAFP)
-                    if (idAFP) idList.push(idAFP[1].replace(/["]/g, '\\"'))
+                    if (idAFP) idList.push(idAFP[1])
                 } else {
                     if (idNumber) idList.push(idNumber.toString())
                 }
@@ -114,7 +114,7 @@ if(BridgeTalk.appName == 'bridge'){
 
                 if (agency == '000_'){
                     itemId = (item.match(regexAFP))
-                    if (itemId) itemList_.push(itemIndex + '. AFP:  ' + itemId[1].replace(/["]/g, '\\"'))
+                    if (itemId) itemList_.push(itemIndex + '. AFP:  ' + itemId[1])
 
                 } else if (agency == 'ap'){
                     itemId = item.match(REGEX)
