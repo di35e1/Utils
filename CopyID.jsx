@@ -88,7 +88,7 @@ if(BridgeTalk.appName == 'bridge'){
             } else {
                 cnfMessage = 'Would you like to get ' + idList.length + ' numbers?\n' + idList.join(", ")
                 if (Window.confirm(cnfMessage)){
-                    copyResult(idList.join(" "))
+                    copyResult(idList.join(","))
                 }
             }
             return
