@@ -106,21 +106,21 @@ if(BridgeTalk.appName == 'bridge'){
 
                 txt_title = md.read("http://ns.adobe.com/photoshop/1.0/", "photoshop:Headline")
                 txt_author = md.read("http://purl.org/dc/elements/1.1/", "dc:creator")
-                //txt_description = md.read("http://purl.org/dc/elements/1.1/", "dc:description")
+                txt_description = md.read("http://purl.org/dc/elements/1.1/", "dc:description")
 
                 itemId = item.replace(/["]/g, '\\"') //Quotedform
-                if (itemId) itemList_.push(itemId + ' - ' + txt_title + '. ' + txt_author + '\n')
+                if (itemId) itemList_.push(itemId + ' - ' + txt_title + '. ' + txt_author + '\n' + txt_description + '\n\n' )
             }
 
             if (itemList_.length == 0){
                 Window.alert('There are no items to copy', 'Save Filename + Headline...')
-            } else if (itemList_.length < 15) {
+            } else if (itemList_.length < 5) {
                 var cnfMessage_ = 'Would you like to save Result.txt with ' + itemList_.length + ' items?\n' + itemList_.join("\n")
                 if (Window.confirm(cnfMessage_, false, 'Save Filename + Headline...')){
                     saveResult(itemList_.join("\n"))
                 }
             } else {
-                var cnfMessage_ = 'Would you like to save Result.txt with ' + itemList_.length + ' items?\n' + itemList_.slice(0,22).join("\n") + '\n...\n' + itemList_.slice(-1)
+                var cnfMessage_ = 'Would you like to save Result.txt with ' + itemList_.length + ' items?\n' + itemList_.slice(0,5).join("\n") + '\n...\n' + itemList_.slice(-1)
                 if (Window.confirm(cnfMessage_, false, 'Save Filename + Headline...')){
                     saveResult(itemList_.join("\n"))
                 }
