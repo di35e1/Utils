@@ -14,7 +14,7 @@ Last modifed 26/06/2023
 
 const REGEX = /\d{3,25}/
 const regexAgencies = /ria|RIA|AP|000_|i[sS]tock|[gG]etty[iI]mages|[sS]putnik/
-const regexAFP = /(000_\w{3,10}).jp/
+const regexAFP = /(000_\w{3,10}).jpg/
 
 if(BridgeTalk.appName == 'bridge'){
 
