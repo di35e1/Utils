@@ -13,8 +13,8 @@ Last modifed 26/06/2023
 #target bridge
 
 const REGEX = /\d{3,25}/
-const regexAgencies = /ria|RIA|AP|000_|i[sS]tock|[sS]putnik/
-const regexAFP = /(000_\w{3,10}).jpg/
+const regexAgencies = /ria|RIA|AP|000_|i[sS]tock|[gG]etty[iI]mages|[sS]putnik/
+const regexAFP = /(000_\w{3,10}).jp/
 
 if(BridgeTalk.appName == 'bridge'){
 
@@ -128,6 +128,10 @@ if(BridgeTalk.appName == 'bridge'){
                     itemId = item.match(REGEX)
                     if (itemId) itemList_.push(itemIndex + '. iStock:  ' + itemId)
 
+                } else if (agency == "gettyimages"){
+                    itemId = item.match(REGEX)
+                    if (itemId) itemList_.push(itemIndex + '. Getty:  ' + itemId)
+                        
                 } else {
                     itemId = item.replace(/["]/g, '\\"') //Quotedform
                     if (itemId) itemList_.push(itemIndex + '. Unknown:  ' + itemId)
